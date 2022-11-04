@@ -17,7 +17,7 @@ class GetWeatherUsecaseTest {
         // when
         val expected = "invalid zipcode"
         getWeatherUsecase(zipCode = "", appId = "appId")
-            //then
+            // then
             .onSuccess { actual ->
                 assertThat(actual).isEqualTo(expected)
             }
@@ -33,7 +33,7 @@ class GetWeatherUsecaseTest {
         // when
         val expected = "invalid appid"
         getWeatherUsecase(zipCode = "04524,KR", appId = "")
-            //then
+            // then
             .onSuccess { actual ->
                 assertThat(actual).isEqualTo(expected)
             }
@@ -49,7 +49,7 @@ class GetWeatherUsecaseTest {
         // when
         val expected = "invalid location"
         getWeatherUsecase(zipCode = "04524,KR", appId = "appId")
-            //then
+            // then
             .onSuccess { actual ->
                 assertThat(actual).isEqualTo(expected)
             }
