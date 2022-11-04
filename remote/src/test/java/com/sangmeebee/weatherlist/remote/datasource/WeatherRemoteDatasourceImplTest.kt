@@ -2,6 +2,7 @@ package com.sangmeebee.weatherlist.remote.datasource
 
 import com.google.common.truth.Truth.assertThat
 import com.sangmeebee.weatherlist.data.datasource.remote.WeatherRemoteDatasource
+import com.sangmeebee.weatherlist.remote.exceptions.IllegalAppTokenException
 import com.sangmeebee.weatherlist.remote.model.TempResponse
 import com.sangmeebee.weatherlist.remote.model.WeatherIconResponse
 import com.sangmeebee.weatherlist.remote.model.WeatherItemResponse
@@ -53,14 +54,20 @@ class WeatherRemoteDatasourceImplTest {
     }
 
     @Test
-    fun `오류를 반환한다`() = runTest {
+    fun `앱키가 잘못 입력되거나 권한이 없으면 해당하는 예외를 반환한다`() = runTest {
         // given
-        val response = MockResponse().setResponseCode(400)
+        val response = MockResponse().setResponseCode(401)
+        val expected = IllegalAppTokenException()
         mockWebServer.enqueue(response)
         // when
-        val actual = weatherRemoteDatasource.getWeather(latitude = 999.0, longitude = 126.9782914, appId = "appId")
-        // then
-        assertThat(actual.isFailure).isTrue()
+        weatherRemoteDatasource.getWeather(latitude = 37.5666791, longitude = 126.9782914, appId = "")
+            // then
+            .onSuccess { actual ->
+                assertThat(actual).isInstanceOf(expected::class.java)
+            }
+            .onFailure { actual ->
+                assertThat(actual).isInstanceOf(expected::class.java)
+            }
     }
 
     @Test
