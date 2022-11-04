@@ -1,8 +1,7 @@
-package com.sangmeebee.weatherlist.remote
+package com.sangmeebee.weatherlist.remote.service
 
 import com.google.common.truth.Truth.assertThat
 import com.sangmeebee.weatherlist.remote.model.LocationResponse
-import com.sangmeebee.weatherlist.remote.service.GeocoderAPI
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer

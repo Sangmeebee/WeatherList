@@ -1,11 +1,10 @@
-package com.sangmeebee.weatherlist.remote
+package com.sangmeebee.weatherlist.remote.service
 
 import com.google.common.truth.Truth.assertThat
 import com.sangmeebee.weatherlist.remote.model.TempResponse
 import com.sangmeebee.weatherlist.remote.model.WeatherIconResponse
 import com.sangmeebee.weatherlist.remote.model.WeatherItemResponse
 import com.sangmeebee.weatherlist.remote.model.WeatherResponse
-import com.sangmeebee.weatherlist.remote.service.WeatherAPI
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
