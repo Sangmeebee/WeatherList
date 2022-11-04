@@ -74,30 +74,31 @@ class WeatherAPITest {
         val actual = weatherAPI.getWeather(latitude = 37.5666791, longitude = 126.9782914, appId = "appId")
         // then
         val expected = WeatherResponse(
+            city = "Asia/Seoul",
             items = listOf(
                 WeatherItemResponse(
-                    timestamp = 1667552400,
+                    timestamp = 1667530800,
                     tempResponse = TempResponse(
-                        min = 7.63,
-                        max = 9.04
+                        min = 3.9,
+                        max = 9.21
                     ),
                     weatherIcon = listOf(
                         WeatherIconResponse(
-                            iconName = "Clouds",
-                            iconType = "03n"
+                            iconName = "Clear",
+                            iconType = "01d"
                         )
                     )
                 ),
                 WeatherItemResponse(
-                    timestamp = 1667563200,
+                    timestamp = 1667617200,
                     tempResponse = TempResponse(
-                        min = 6.22,
-                        max = 7.4
+                        min = 4.82,
+                        max = 11.76
                     ),
                     weatherIcon = listOf(
                         WeatherIconResponse(
-                            iconName = "Clouds",
-                            iconType = "03n"
+                            iconName = "Clear",
+                            iconType = "01d"
                         )
                     )
                 )
