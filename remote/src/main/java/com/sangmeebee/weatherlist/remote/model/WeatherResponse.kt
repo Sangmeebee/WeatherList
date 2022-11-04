@@ -5,14 +5,17 @@ import com.sangmeebee.weatherlist.data.model.WeatherEntity
 import com.sangmeebee.weatherlist.remote.model.mapper.RemoteToDataMapper
 
 internal data class WeatherResponse(
-    @SerializedName("list")
+
+    @SerializedName("timezone")
+    val city: String,
+    @SerializedName("daily")
     val items: List<WeatherItemResponse>,
 )
 
 internal data class WeatherItemResponse(
     @SerializedName("dt")
     val timestamp: Long,
-    @SerializedName("main")
+    @SerializedName("temp")
     val tempResponse: TempResponse,
     @SerializedName("weather")
     val weatherIcon: List<WeatherIconResponse>,
@@ -27,9 +30,7 @@ internal data class WeatherItemResponse(
 }
 
 internal data class TempResponse(
-    @SerializedName("temp_min")
     val min: Double,
-    @SerializedName("temp_max")
     val max: Double,
 )
 
