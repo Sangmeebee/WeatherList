@@ -6,6 +6,7 @@ import com.sangmeebee.weatherlist.remote.model.TempResponse
 import com.sangmeebee.weatherlist.remote.model.WeatherIconResponse
 import com.sangmeebee.weatherlist.remote.model.WeatherItemResponse
 import com.sangmeebee.weatherlist.remote.model.WeatherResponse
+import com.sangmeebee.weatherlist.remote.model.mapper.toData
 import com.sangmeebee.weatherlist.remote.service.WeatherAPI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -96,7 +97,7 @@ class WeatherRemoteDatasourceImplTest {
                         ))
                     )
                 )
-            ).toData()
+            ).items.toData()
         )
         assertThat(actual).isEqualTo(expected)
     }

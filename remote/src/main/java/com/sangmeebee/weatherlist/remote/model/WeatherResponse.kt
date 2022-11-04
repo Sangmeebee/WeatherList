@@ -2,17 +2,12 @@ package com.sangmeebee.weatherlist.remote.model
 
 import com.google.gson.annotations.SerializedName
 import com.sangmeebee.weatherlist.data.model.WeatherEntity
-import com.sangmeebee.weatherlist.data.model.WeatherItemEntity
 import com.sangmeebee.weatherlist.remote.model.mapper.RemoteToDataMapper
 
 internal data class WeatherResponse(
     @SerializedName("list")
     val items: List<WeatherItemResponse>,
-) : RemoteToDataMapper<WeatherEntity> {
-    override fun toData(): WeatherEntity = WeatherEntity(
-        items = items.map { it.toData() }
-    )
-}
+)
 
 internal data class WeatherItemResponse(
     @SerializedName("dt")
@@ -21,8 +16,8 @@ internal data class WeatherItemResponse(
     val tempResponse: TempResponse,
     @SerializedName("weather")
     val weatherIcon: List<WeatherIconResponse>,
-) : RemoteToDataMapper<WeatherItemEntity> {
-    override fun toData(): WeatherItemEntity = WeatherItemEntity(
+) : RemoteToDataMapper<WeatherEntity> {
+    override fun toData(): WeatherEntity = WeatherEntity(
         timestamp = timestamp,
         tempMin = tempResponse.min,
         tempMax = tempResponse.max,
