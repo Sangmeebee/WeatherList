@@ -81,7 +81,7 @@ class GeocoderAPITest {
     @Test
     fun `우편번호에 대한 경도 위도를 반환한다`() = runTest {
         // given
-        val response = MockResponse().setBody(File("src/test/resources/200.json").readText())
+        val response = MockResponse().setBody(File("src/test/resources/geocoder_200.json").readText())
         mockWebServer.enqueue(response)
         // when
         val actual = geocoderAPI.getLocation(zipCode = "04524,KR", appId = "appId")
