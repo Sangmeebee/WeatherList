@@ -1,6 +1,7 @@
 package com.sangmeebee.weatherlist.remote.di
 
 import com.sangmeebee.weatherlist.remote.service.GeocoderAPI
+import com.sangmeebee.weatherlist.remote.service.WeatherAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,4 +17,9 @@ internal object APIModule {
     @Provides
     fun provideGeocoderAPI(retrofit: Retrofit): GeocoderAPI =
         retrofit.create(GeocoderAPI::class.java)
+
+    @Singleton
+    @Provides
+    fun provideWeatherAPI(retrofit: Retrofit): WeatherAPI =
+        retrofit.create(WeatherAPI::class.java)
 }
