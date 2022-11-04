@@ -12,8 +12,8 @@ import org.junit.Test
 
 class GeocoderRepositoryImplTest {
 
-    lateinit var geocoderRemoteDatasource: GeocoderRemoteDatasource
-    lateinit var geocoderRepository: GeocoderRepository
+    private lateinit var geocoderRemoteDatasource: GeocoderRemoteDatasource
+    private lateinit var geocoderRepository: GeocoderRepository
 
     @Before
     fun setUp() {

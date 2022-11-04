@@ -9,5 +9,5 @@ internal class GeocoderRepositoryImpl @Inject constructor(
     private val geocoderRemoteDatasource: GeocoderRemoteDatasource,
 ) : GeocoderRepository {
     override suspend fun getLocation(zipCode: String, appId: String): Result<Location> =
-        geocoderRemoteDatasource.getLocation(zipCode, appId).map { it.toDomain() }
+        geocoderRemoteDatasource.getLocation(zipCode, appId).mapCatching { it.toDomain() }
 }
