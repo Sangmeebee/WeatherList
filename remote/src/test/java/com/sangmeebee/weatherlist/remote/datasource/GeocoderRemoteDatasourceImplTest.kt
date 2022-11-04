@@ -1,6 +1,11 @@
 package com.sangmeebee.weatherlist.remote.datasource
 
+import com.google.common.truth.Truth.assertThat
+import com.sangmeebee.weatherlist.data.datasource.remote.GeocoderRemoteDatasource
+import com.sangmeebee.weatherlist.data.model.LocationEntity
 import com.sangmeebee.weatherlist.remote.service.GeocoderAPI
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -18,7 +23,9 @@ class GeocoderRemoteDatasourceImplTest {
 
     private lateinit var mockWebServer: MockWebServer
     private lateinit var geocoderAPI: GeocoderAPI
+    private lateinit var geocoderRemoteDatasource: GeocoderRemoteDatasource
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         mockWebServer = MockWebServer()
@@ -29,6 +36,11 @@ class GeocoderRemoteDatasourceImplTest {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GeocoderAPI::class.java)
+
+        geocoderRemoteDatasource = GeocoderRemoteDatasourceImpl(
+            geocoderAPI = geocoderAPI,
+            ioDispatcher = mainDispatcherRule.testDispatcher
+        )
     }
 
     @After
@@ -37,20 +49,25 @@ class GeocoderRemoteDatasourceImplTest {
     }
 
     @Test
-    fun `오류를 반환한다`() {
+    fun `오류를 반환한다`() = runTest {
         // given
         val response = MockResponse().setResponseCode(404)
         mockWebServer.enqueue(response)
         // when
+        val actual = geocoderRemoteDatasource.getLocation("04524,US", "appId")
         // then
+        assertThat(actual.isFailure).isTrue()
     }
 
     @Test
-    fun `위치 정보를 반환한다`() {
+    fun `위치 정보를 반환한다`() = runTest {
         // given
         val response = MockResponse().setResponseCode(200).setBody(File("src/test/resources/geocoder_200.json").readText())
         mockWebServer.enqueue(response)
         // when
+        val actual = geocoderRemoteDatasource.getLocation("04524,KR", "appId")
         // then
+        val expected = Result.success(LocationEntity(latitude = 37.5662, longitude = 126.9777))
+        assertThat(actual).isEqualTo(expected)
     }
 }
