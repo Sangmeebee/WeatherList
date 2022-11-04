@@ -1,0 +1,3 @@
+package com.sangmeebee.weatherlist.remote.datasource
+
+class GeocoderRemoteDatasourceImpl
