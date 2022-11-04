@@ -1,3 +1,7 @@
 package com.sangmeebee.weatherlist.domain.repository
 
-interface WeatherRepository
+import com.sangmeebee.weatherlist.domain.model.Weather
+
+interface WeatherRepository {
+    suspend fun getWeather(latitude: Double, longitude: Double, appId: String): Result<List<Weather>>
+}
