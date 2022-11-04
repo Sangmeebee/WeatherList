@@ -73,32 +73,38 @@ class WeatherRemoteDatasourceImplTest {
         // then
         val expected = Result.success(
             WeatherResponse(
+                city = "Asia/Seoul",
                 items = listOf(
                     WeatherItemResponse(
-                        timestamp = 1667552400,
+                        timestamp = 1667530800,
                         tempResponse = TempResponse(
-                            min = 7.63,
-                            max = 9.04
+                            min = 3.9,
+                            max = 9.21
                         ),
-                        weatherIcon = listOf(WeatherIconResponse(
-                            iconName = "Clouds",
-                            iconType = "03n"
-                        ))
+                        weatherIcon = listOf(
+                            WeatherIconResponse(
+                                iconName = "Clear",
+                                iconType = "01d"
+                            )
+                        )
                     ),
                     WeatherItemResponse(
-                        timestamp = 1667563200,
+                        timestamp = 1667617200,
                         tempResponse = TempResponse(
-                            min = 6.22,
-                            max = 7.4
+                            min = 4.82,
+                            max = 11.76
                         ),
-                        weatherIcon = listOf(WeatherIconResponse(
-                            iconName = "Clouds",
-                            iconType = "03n"
-                        ))
+                        weatherIcon = listOf(
+                            WeatherIconResponse(
+                                iconName = "Clear",
+                                iconType = "01d"
+                            )
+                        )
                     )
                 )
             ).items.toData()
         )
+
         assertThat(actual).isEqualTo(expected)
     }
 }
