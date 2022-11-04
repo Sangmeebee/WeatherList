@@ -81,10 +81,12 @@ class WeatherAPITest {
                         min = 7.63,
                         max = 9.04
                     ),
-                    weatherIcon = listOf(WeatherIconResponse(
-                        iconName = "Clouds",
-                        iconType = "03n"
-                    ))
+                    weatherIcon = listOf(
+                        WeatherIconResponse(
+                            iconName = "Clouds",
+                            iconType = "03n"
+                        )
+                    )
                 ),
                 WeatherItemResponse(
                     timestamp = 1667563200,
@@ -92,10 +94,12 @@ class WeatherAPITest {
                         min = 6.22,
                         max = 7.4
                     ),
-                    weatherIcon = listOf(WeatherIconResponse(
-                        iconName = "Clouds",
-                        iconType = "03n"
-                    ))
+                    weatherIcon = listOf(
+                        WeatherIconResponse(
+                            iconName = "Clouds",
+                            iconType = "03n"
+                        )
+                    )
                 )
             )
         )
