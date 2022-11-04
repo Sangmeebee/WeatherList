@@ -10,5 +10,8 @@ class GetWeatherUsecase @Inject constructor(
     private val weatherRepository: WeatherRepository,
 ) {
     suspend operator fun invoke(zipCode: String, appId: String): Result<Weather> =
-        Result.failure(Throwable())
+        geocoderRepository.getLocation(zipCode, appId).fold(
+            onSuccess = { location -> weatherRepository.getWeather(location.latitude, location.longitude, appId) },
+            onFailure = { throwable -> Result.failure(throwable) }
+        )
 }
