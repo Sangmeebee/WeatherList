@@ -1,8 +1,10 @@
 package com.sangmeebee.weatherlist.domain.usecase
 
+import com.google.common.truth.Truth.assertThat
 import com.sangmeebee.weatherlist.domain.fake.ErrorFakeGeocoderRepository
 import com.sangmeebee.weatherlist.domain.fake.FakeGeocoderRepository
 import com.sangmeebee.weatherlist.domain.fake.FakeWeatherRepository
+import com.sangmeebee.weatherlist.domain.model.Weather
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -13,8 +15,15 @@ class GetWeatherUsecaseTest {
         // given
         val getWeatherUsecase = GetWeatherUsecase(FakeGeocoderRepository(), FakeWeatherRepository())
         // when
+        val expected = "invalid zipcode"
         getWeatherUsecase(zipCode = "", appId = "appId")
-        // then
+            //then
+            .onSuccess { actual ->
+                assertThat(actual).isEqualTo(expected)
+            }
+            .onFailure { actual ->
+                assertThat(actual.message).isEqualTo(expected)
+            }
     }
 
     @Test
@@ -22,8 +31,15 @@ class GetWeatherUsecaseTest {
         // given
         val getWeatherUsecase = GetWeatherUsecase(FakeGeocoderRepository(), FakeWeatherRepository())
         // when
+        val expected = "invalid appid"
         getWeatherUsecase(zipCode = "04524,KR", appId = "")
-        // then
+            //then
+            .onSuccess { actual ->
+                assertThat(actual).isEqualTo(expected)
+            }
+            .onFailure { actual ->
+                assertThat(actual.message).isEqualTo(expected)
+            }
     }
 
     @Test
@@ -31,16 +47,30 @@ class GetWeatherUsecaseTest {
         // given
         val getWeatherUsecase = GetWeatherUsecase(ErrorFakeGeocoderRepository(), FakeWeatherRepository())
         // when
+        val expected = "invalid location"
         getWeatherUsecase(zipCode = "04524,KR", appId = "appId")
-        // then
+            //then
+            .onSuccess { actual ->
+                assertThat(actual).isEqualTo(expected)
+            }
+            .onFailure { actual ->
+                assertThat(actual.message).isEqualTo(expected)
+            }
     }
 
     @Test
     fun `날씨 정보를 반환한다`() = runTest {
         // given
         val getWeatherUsecase = GetWeatherUsecase(FakeGeocoderRepository(), FakeWeatherRepository())
+        val expected = Weather(city = "Seoul", items = emptyList())
         // when
         getWeatherUsecase("04524,KR", "appId")
-        // then
+            // then
+            .onSuccess { actual ->
+                assertThat(actual).isEqualTo(expected)
+            }
+            .onFailure { actual ->
+                assertThat(actual).isEqualTo(expected)
+            }
     }
 }

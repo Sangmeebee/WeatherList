@@ -7,7 +7,7 @@ import kotlin.math.absoluteValue
 class FakeWeatherRepository : WeatherRepository {
     override suspend fun getWeather(latitude: Double, longitude: Double, appId: String): Result<Weather> {
         if (latitude.absoluteValue > MAX_LATITUDE_VALUE || longitude.absoluteValue > MAX_LONGITUDE_VALUE) {
-            return Result.failure(IllegalArgumentException("Invalid location"))
+            return Result.failure(IllegalArgumentException("invalid location"))
         }
         return Result.success(Weather(city = "Seoul", items = emptyList()))
     }
