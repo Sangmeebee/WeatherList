@@ -3,6 +3,9 @@ package com.sangmeebee.weatherlist.remote.datasource
 import com.google.common.truth.Truth.assertThat
 import com.sangmeebee.weatherlist.data.datasource.remote.GeocoderRemoteDatasource
 import com.sangmeebee.weatherlist.data.model.LocationEntity
+import com.sangmeebee.weatherlist.remote.exceptions.EmptyResultLocationException
+import com.sangmeebee.weatherlist.remote.exceptions.IllegalAppTokenException
+import com.sangmeebee.weatherlist.remote.exceptions.IllegalLocationException
 import com.sangmeebee.weatherlist.remote.service.GeocoderAPI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -49,14 +52,54 @@ class GeocoderRemoteDatasourceImplTest {
     }
 
     @Test
-    fun `오류를 반환한다`() = runTest {
+    fun `정확하지 않은 우편번호를 입력하면 해당하는 예외를 반환한다`() = runTest {
         // given
-        val response = MockResponse().setResponseCode(404)
+        val response = MockResponse().setResponseCode(400)
+        val expected = IllegalLocationException()
         mockWebServer.enqueue(response)
         // when
-        val actual = geocoderRemoteDatasource.getLocation("04524,US", "appId")
-        // then
-        assertThat(actual.isFailure).isTrue()
+        geocoderRemoteDatasource.getLocation("US", "appId")
+            // then
+            .onSuccess { actual ->
+                assertThat(actual).isInstanceOf(expected::class.java)
+            }
+            .onFailure { actual ->
+                assertThat(actual).isInstanceOf(expected::class.java)
+            }
+    }
+
+    @Test
+    fun `우편번호에 대한 경도 위도가 없다면 해당하는 예외를 반환한다`() = runTest {
+        // given
+        val response = MockResponse().setResponseCode(404)
+        val expected = EmptyResultLocationException()
+        mockWebServer.enqueue(response)
+        // when
+        geocoderRemoteDatasource.getLocation("04524,US", "appId")
+            // then
+            .onSuccess { actual ->
+                assertThat(actual).isInstanceOf(expected::class.java)
+            }
+            .onFailure { actual ->
+                assertThat(actual).isInstanceOf(expected::class.java)
+            }
+    }
+
+    @Test
+    fun `앱키가 잘못 입력되거나 권한이 없으면 해당하는 예외를 반환한다`() = runTest {
+        // given
+        val response = MockResponse().setResponseCode(401)
+        val expected = IllegalAppTokenException()
+        mockWebServer.enqueue(response)
+        // when
+        geocoderRemoteDatasource.getLocation("04524,KR", "")
+            // then
+            .onSuccess { actual ->
+                assertThat(actual).isInstanceOf(expected::class.java)
+            }
+            .onFailure { actual ->
+                assertThat(actual).isInstanceOf(expected::class.java)
+            }
     }
 
     @Test
