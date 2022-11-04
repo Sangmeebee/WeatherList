@@ -1,0 +1,33 @@
+{
+  "cod": "200",
+  "message": 0,
+  "cnt": 40,
+  "list": [
+    {
+      "dt": 1667552400,
+      "main": {
+        "temp_min": 7.63,
+        "temp_max": 9.04
+      },
+      "weather": [
+        {
+          "main": "Clouds",
+          "icon": "03n"
+        }
+      ]
+    },
+    {
+      "dt": 1667563200,
+      "main": {
+        "temp_min": 6.22,
+        "temp_max": 7.4
+      },
+      "weather": [
+        {
+          "main": "Clouds",
+          "icon": "03n"
+        }
+      ]
+    }
+  ]
+}
