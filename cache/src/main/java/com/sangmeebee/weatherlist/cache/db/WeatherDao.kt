@@ -21,7 +21,7 @@ internal interface WeatherDao {
 
     @MapInfo(keyColumn = "city")
     @Query("SELECT weather.city AS city, * FROM weather ORDER BY timestamp ASC")
-    fun getAllWeathers(): Map<String, List<WeatherPref>>
+    suspend fun getAllWeathers(): Map<String, List<WeatherPref>>
 
     @Delete
     suspend fun deleteAll(weathers: List<WeatherPref>)
