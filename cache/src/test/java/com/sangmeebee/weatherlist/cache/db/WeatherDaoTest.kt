@@ -9,15 +9,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class WeatherDaoTest {
-
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var database: AppDatabase
 
@@ -26,14 +22,14 @@ class WeatherDaoTest {
         database = Room.inMemoryDatabaseBuilder(
             getApplicationContext(),
             AppDatabase::class.java
-        ).build()
+        ).allowMainThreadQueries().build()
     }
 
     @After
     fun closeDb() = database.close()
 
     @Test
-    fun `날씨 리스트를 저장한다`() = runTest(mainDispatcherRule.testDispatcher) {
+    fun `날씨 리스트를 저장한다`() = runTest {
         // given
         val weathers = fakeInsertWeathers
         val expected = fakeInsertExpectedWeathers
@@ -45,7 +41,7 @@ class WeatherDaoTest {
     }
 
     @Test
-    fun `날씨 리스트를 삭제한다`() = runTest(mainDispatcherRule.testDispatcher) {
+    fun `날씨 리스트를 삭제한다`() = runTest {
         // given
         val weathers = fakeInsertWeathers
         // when
@@ -57,7 +53,7 @@ class WeatherDaoTest {
     }
 
     @Test
-    fun `날씨 리스트 전체를 불러온다`() = runTest(mainDispatcherRule.testDispatcher) {
+    fun `날씨 리스트 전체를 불러온다`() = runTest {
         // given
         val weathers = fakeInsertWeathers
         val expected = fakeInsertExpectedWeathers
@@ -69,7 +65,7 @@ class WeatherDaoTest {
     }
 
     @Test
-    fun `날씨 리스트 전체를 데이터 스트림으로 불러온다`() = runTest(mainDispatcherRule.testDispatcher) {
+    fun `날씨 리스트 전체를 데이터 스트림으로 불러온다`() = runTest {
         // given
         val weathers = fakeInsertWeathers
         val expected = fakeInsertExpectedWeathers
