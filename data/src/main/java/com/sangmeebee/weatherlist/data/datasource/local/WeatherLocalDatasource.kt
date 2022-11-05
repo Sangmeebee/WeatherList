@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface WeatherLocalDatasource {
     fun getWeathersFlow(): Flow<Map<String, List<WeatherEntity>>>
     suspend fun getAllWeathers(): Result<Map<String, List<WeatherEntity>>>
-    suspend fun deleteAll(weathers: List<WeatherEntity>): Result<Unit>
+    suspend fun deleteWeathers(weathers: List<WeatherEntity>): Result<Unit>
     suspend fun insertAll(weathers: List<WeatherEntity>): Result<Unit>
 }

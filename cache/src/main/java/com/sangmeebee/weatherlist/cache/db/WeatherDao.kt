@@ -24,5 +24,5 @@ internal interface WeatherDao {
     suspend fun getAllWeathers(): Map<String, List<WeatherPref>>
 
     @Delete
-    suspend fun deleteAll(weathers: List<WeatherPref>)
+    suspend fun deleteWeathers(weathers: List<WeatherPref>)
 }

@@ -67,7 +67,7 @@ class WeatherLocalDatasourceImplTest {
         // given
         val weathers = fakeInsertWeathers
         // when
-        val actual = weatherLocalDatasource.deleteAll(weathers)
+        val actual = weatherLocalDatasource.deleteWeathers(weathers)
         // then
         assertThat(actual.isSuccess).isTrue()
     }
@@ -77,7 +77,7 @@ class WeatherLocalDatasourceImplTest {
         // given
         val weathers = fakeInsertWeathers
         // when
-        val actual = weatherLocalDatasource.deleteAll(weathers).mapCatching {
+        val actual = weatherLocalDatasource.deleteWeathers(weathers).mapCatching {
             throw IllegalStateException()
         }
         // then

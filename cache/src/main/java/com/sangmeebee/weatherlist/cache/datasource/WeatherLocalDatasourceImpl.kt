@@ -34,9 +34,9 @@ internal class WeatherLocalDatasourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteAll(weathers: List<WeatherEntity>): Result<Unit> = runCatching {
+    override suspend fun deleteWeathers(weathers: List<WeatherEntity>): Result<Unit> = runCatching {
         withContext(ioDispatcher) {
-            weatherDao.deleteAll(weathers.toPref())
+            weatherDao.deleteWeathers(weathers.toPref())
         }
     }
 

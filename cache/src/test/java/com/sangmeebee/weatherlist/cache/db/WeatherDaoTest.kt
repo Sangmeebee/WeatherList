@@ -46,7 +46,7 @@ class WeatherDaoTest {
         val weathers = fakeInsertWeathers
         // when
         database.weatherDao().insertAll(weathers)
-        database.weatherDao().deleteAll(weathers)
+        database.weatherDao().deleteWeathers(weathers)
         // then
         val actual = database.weatherDao().getAllWeathers()
         assertThat(actual).isEmpty()
