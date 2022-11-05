@@ -62,7 +62,15 @@ class GetWeatherUsecaseTest {
     fun `날씨 정보를 반환한다`() = runTest {
         // given
         val getWeatherUsecase = GetWeatherUsecase(FakeGeocoderRepository(), FakeWeatherRepository())
-        val expected = Weather(city = "Seoul", items = emptyList())
+        val expected = listOf(
+            Weather(
+                city = "Seoul",
+                timestamp = 1667617200,
+                tempMin = -2.34,
+                tempMax = 11.63,
+                iconName = "Clear",
+                iconType = "01d")
+        )
         // when
         getWeatherUsecase("04524,KR", "appId")
             // then

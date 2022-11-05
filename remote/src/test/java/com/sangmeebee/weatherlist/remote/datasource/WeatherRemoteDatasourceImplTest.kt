@@ -109,7 +109,7 @@ class WeatherRemoteDatasourceImplTest {
                         )
                     )
                 )
-            ).items.toData()
+            ).toData()
         )
 
         assertThat(actual).isEqualTo(expected)

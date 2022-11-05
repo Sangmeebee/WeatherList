@@ -1,7 +1,6 @@
 package com.sangmeebee.weatherlist.data.repository
 
 import com.sangmeebee.weatherlist.data.datasource.remote.WeatherRemoteDatasource
-import com.sangmeebee.weatherlist.domain.model.Weather
 import com.sangmeebee.weatherlist.domain.repository.WeatherRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -28,7 +27,7 @@ class WeatherRepositoryImplTest {
         // given
         coEvery {
             weatherRepository.getWeather(latitude = 37.5666791, longitude = 126.9782914, appId = "appId")
-        } returns Result.success(Weather(city = "Seoul", items = listOf()))
+        } returns Result.success(mockk())
         // when
         weatherRepository.getWeather(latitude = 37.5666791, longitude = 126.9782914, appId = "appId")
         // then
