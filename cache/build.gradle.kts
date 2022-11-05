@@ -29,6 +29,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    testOptions.unitTests {
+        isIncludeAndroidResources = true
+    }
 }
 
 dependencies {
@@ -52,6 +56,9 @@ dependencies {
 
     UnitTestConfig.run {
         testImplementation(JUNIT)
+        testImplementation(ANDROIDX_JUNIT_KTX)
+        testImplementation(ANDROIDX_CORE_KTX)
+        testImplementation(ROBOLECTRIC)
         testImplementation(TRUTH)
         testImplementation(COROUTINE_TEST)
         testImplementation(MOCKK)

@@ -72,6 +72,9 @@ object HiltConfig {
 
 object UnitTestConfig {
     const val JUNIT = "junit:junit:4.13.2"
+    const val ANDROIDX_JUNIT_KTX = "androidx.test.ext:junit-ktx:1.1.2"
+    const val ANDROIDX_CORE_KTX = "androidx.test:core-ktx:1.4.0"
+    const val ROBOLECTRIC = "org.robolectric:robolectric:4.9"
     const val TRUTH = "com.google.truth:truth:1.1.3"
     const val COROUTINE_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
     const val MOCKK = "io.mockk:mockk:1.13.2"
