@@ -10,6 +10,7 @@ import com.sangmeebee.weatherlist.remote.exceptions.ILLEGAL_APP_TOKEN
 import com.sangmeebee.weatherlist.remote.exceptions.ILLEGAL_LOCATION
 import com.sangmeebee.weatherlist.remote.exceptions.IllegalAppTokenException
 import com.sangmeebee.weatherlist.remote.exceptions.IllegalLocationException
+import com.sangmeebee.weatherlist.remote.model.mapper.toData
 import com.sangmeebee.weatherlist.remote.service.WeatherAPI
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -19,7 +20,7 @@ internal class WeatherRemoteDatasourceImpl @Inject constructor(
     private val weatherAPI: WeatherAPI,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : WeatherRemoteDatasource {
-    override suspend fun getWeather(latitude: Double, longitude: Double, appId: String): Result<WeatherEntity> = try {
+    override suspend fun getWeather(latitude: Double, longitude: Double, appId: String): Result<List<WeatherEntity>> = try {
         withContext(ioDispatcher) {
             Result.success(weatherAPI.getWeather(latitude, longitude, appId).toData())
         }
