@@ -6,11 +6,11 @@ import com.sangmeebee.weatherlist.cache.model.mapper.toPref
 import com.sangmeebee.weatherlist.data.datasource.local.WeatherLocalDatasource
 import com.sangmeebee.weatherlist.data.di.IoDispatcher
 import com.sangmeebee.weatherlist.data.model.WeatherEntity
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 internal class WeatherLocalDatasourceImpl @Inject constructor(
     private val weatherDao: WeatherDao,

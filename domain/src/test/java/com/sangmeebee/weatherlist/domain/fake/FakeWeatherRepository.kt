@@ -1,10 +1,10 @@
 package com.sangmeebee.weatherlist.domain.fake
 
-import com.sangmeebee.weatherlist.domain.model.Weather // ktlint-disable import-ordering
+import com.sangmeebee.weatherlist.domain.model.Weather
 import com.sangmeebee.weatherlist.domain.repository.WeatherRepository
-import kotlin.math.absoluteValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlin.math.absoluteValue
 
 class FakeWeatherRepository : WeatherRepository {
     override suspend fun getWeather(latitude: Double, longitude: Double, appId: String): Result<List<Weather>> {
