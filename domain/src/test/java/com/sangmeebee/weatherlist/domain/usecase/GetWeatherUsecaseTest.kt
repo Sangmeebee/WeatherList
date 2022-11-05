@@ -69,7 +69,8 @@ class GetWeatherUsecaseTest {
                 tempMin = -2.34,
                 tempMax = 11.63,
                 iconName = "Clear",
-                iconType = "01d")
+                iconType = "01d"
+            )
         )
         // when
         getWeatherUsecase("04524,KR", "appId")

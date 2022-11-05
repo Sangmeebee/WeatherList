@@ -17,7 +17,8 @@ class FakeWeatherRepository : WeatherRepository {
                     tempMin = -2.34,
                     tempMax = 11.63,
                     iconName = "Clear",
-                    iconType = "01d")
+                    iconType = "01d"
+                )
             )
         )
     }
