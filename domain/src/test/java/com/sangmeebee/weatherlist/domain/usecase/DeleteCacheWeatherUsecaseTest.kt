@@ -6,7 +6,6 @@ import com.sangmeebee.weatherlist.domain.repository.WeatherRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.spyk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -21,13 +20,13 @@ class DeleteCacheWeatherUsecaseTest {
     fun setUp() {
         weatherRepository = mockk(relaxed = true)
         getRemoveWeatherUsecase = mockk()
-        deleteCacheWeatherUsecase = spyk(DeleteCacheWeatherUsecase(weatherRepository, getRemoveWeatherUsecase))
+        deleteCacheWeatherUsecase = DeleteCacheWeatherUsecase(weatherRepository, getRemoveWeatherUsecase)
     }
 
     @Test
     fun `로컬 데이터베이스에 저장된 날씨 정보를 불러온다`() = runTest {
         // given
-        coEvery { deleteCacheWeatherUsecase() } returns Result.success(Unit)
+        coEvery { weatherRepository.getAllWeathersAtCache() } returns Result.success(emptyMap())
         // when
         deleteCacheWeatherUsecase()
         // then
