@@ -2,6 +2,7 @@ package com.sangmeebee.weatherlist.ui
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initView()
         setUpObserveUiState()
+        setBackPressedDispatcher()
     }
 
     private fun initView() {
@@ -98,6 +100,12 @@ class MainActivity : AppCompatActivity() {
     private fun showToast(message: String?) {
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setBackPressedDispatcher() {
+        onBackPressedDispatcher.addCallback(this) {
+            finish()
         }
     }
 }
