@@ -30,6 +30,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpObserveUiState()
+        setSwipeRefreshLayout()
+    }
+
+    private fun setSwipeRefreshLayout() {
+        binding.srlLoading.apply {
+            setOnRefreshListener {
+                mainViewModel.fetchLoading(true)
+            }
+        }
     }
 
     private fun setUpObserveUiState() {
@@ -63,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeIsLoading() = repeatOnStarted {
         mainViewModel.uiState.map { it.isLoading }.distinctUntilChanged().collectLatest { isLoading ->
-            // TODO 프로그래스바 VISIBLE 세팅
+            binding.srlLoading.isRefreshing = isLoading
             if (isLoading) {
                 mainViewModel.fetchWeather()
             }
