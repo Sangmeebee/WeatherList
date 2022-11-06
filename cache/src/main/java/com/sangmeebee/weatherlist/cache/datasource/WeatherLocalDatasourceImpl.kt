@@ -1,6 +1,9 @@
 package com.sangmeebee.weatherlist.cache.datasource
 
 import com.sangmeebee.weatherlist.cache.db.WeatherDao
+import com.sangmeebee.weatherlist.cache.exceptions.DeleteCacheWeatherException
+import com.sangmeebee.weatherlist.cache.exceptions.GetCacheWeatherException
+import com.sangmeebee.weatherlist.cache.exceptions.PostCacheWeatherException
 import com.sangmeebee.weatherlist.cache.model.mapper.toData
 import com.sangmeebee.weatherlist.cache.model.mapper.toPref
 import com.sangmeebee.weatherlist.data.datasource.local.WeatherLocalDatasource
@@ -24,25 +27,33 @@ internal class WeatherLocalDatasourceImpl @Inject constructor(
         newMap
     }
 
-    override suspend fun getAllWeathers(): Result<Map<String, List<WeatherEntity>>> = runCatching {
+    override suspend fun getAllWeathers(): Result<Map<String, List<WeatherEntity>>> = try {
         withContext(ioDispatcher) {
             val newMap = mutableMapOf<String, List<WeatherEntity>>()
             weatherDao.getAllWeathers().forEach { (key, value) ->
                 newMap[key] = value.toData()
             }
-            newMap
+            Result.success(newMap)
         }
+    } catch (e: Exception) {
+        Result.failure(GetCacheWeatherException())
     }
 
-    override suspend fun deleteWeathers(weathers: List<WeatherEntity>): Result<Unit> = runCatching {
+    override suspend fun deleteWeathers(weathers: List<WeatherEntity>): Result<Unit> = try {
         withContext(ioDispatcher) {
-            weatherDao.deleteWeathers(weathers.toPref())
+            val result = weatherDao.deleteWeathers(weathers.toPref())
+            Result.success(result)
         }
+    } catch (e: Exception) {
+        Result.failure(DeleteCacheWeatherException())
     }
 
-    override suspend fun insertAll(weathers: List<WeatherEntity>): Result<Unit> = runCatching {
+    override suspend fun insertAll(weathers: List<WeatherEntity>): Result<Unit> = try {
         withContext(ioDispatcher) {
-            weatherDao.insertAll(weathers.toPref())
+            val result = weatherDao.insertAll(weathers.toPref())
+            Result.success(result)
         }
+    } catch (e: Exception) {
+        Result.failure(PostCacheWeatherException())
     }
 }
