@@ -11,8 +11,8 @@ sealed class WeatherModel(open val type: WeatherViewType) {
         override val type: WeatherViewType,
         val city: String,
         val date: String,
-        val tempMin: Double,
-        val tempMax: Double,
+        val tempMin: Int,
+        val tempMax: Int,
         val iconName: String,
         val iconType: String,
     ) : WeatherModel(type)
