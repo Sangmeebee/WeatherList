@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.sangmeebee.weatherlist.BuildConfig
 import com.sangmeebee.weatherlist.cache.exceptions.DeleteCacheWeatherException
 import com.sangmeebee.weatherlist.cache.exceptions.PostCacheWeatherException
+import com.sangmeebee.weatherlist.domain.usecase.ConvertTimestampToDateFormatUsecase
 import com.sangmeebee.weatherlist.domain.usecase.FetchWeatherUsecase
 import com.sangmeebee.weatherlist.domain.usecase.GetCacheWeathersFlowUsecase
 import com.sangmeebee.weatherlist.model.CHICAGO_ZIP
@@ -31,13 +32,13 @@ class MainViewModelTest {
     fun setUp() {
         fetchWeatherUsecase = mockk(relaxed = true)
         getCacheWeathersFlowUsecase = mockk(relaxed = true)
-        mainViewModel = MainViewModel(fetchWeatherUsecase, getCacheWeathersFlowUsecase)
+        mainViewModel = MainViewModel(fetchWeatherUsecase, getCacheWeathersFlowUsecase, ConvertTimestampToDateFormatUsecase())
     }
 
     @Test
     fun `날씨 정보를 불러온다`() = runTest {
         // given
-        val zipcodes = listOf(ZipCode(SEOUL_ZIP), ZipCode(CHICAGO_ZIP), ZipCode(LONDON_ZIP))
+        val zipcodes = listOf(ZipCode(SEOUL_ZIP), ZipCode(LONDON_ZIP), ZipCode(CHICAGO_ZIP))
         // when
         mainViewModel.fetchWeather()
         // then
@@ -47,7 +48,7 @@ class MainViewModelTest {
     @Test
     fun `날씨 정보를 불러오는데 실패하면 오류를 뷰에 전파한다`() = runTest {
         // given
-        val zipcodes = listOf(ZipCode(SEOUL_ZIP), ZipCode(CHICAGO_ZIP), ZipCode(LONDON_ZIP))
+        val zipcodes = listOf(ZipCode(SEOUL_ZIP), ZipCode(LONDON_ZIP), ZipCode(CHICAGO_ZIP))
         coEvery { fetchWeatherUsecase(zipcodes.map { it.code }, BuildConfig.OPEN_WEATHER_APP_ID) } returns listOf(
             Result.success(Unit),
             Result.failure(PostCacheWeatherException()),
