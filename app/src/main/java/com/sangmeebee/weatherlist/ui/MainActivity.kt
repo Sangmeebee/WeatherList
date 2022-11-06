@@ -13,6 +13,7 @@ import com.sangmeebee.weatherlist.remote.exceptions.DisConnectNetworkException
 import com.sangmeebee.weatherlist.remote.exceptions.EmptyResultLocationException
 import com.sangmeebee.weatherlist.remote.exceptions.IllegalAppTokenException
 import com.sangmeebee.weatherlist.remote.exceptions.IllegalLocationException
+import com.sangmeebee.weatherlist.util.WeatherListDividerDecoration
 import com.sangmeebee.weatherlist.util.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -40,7 +41,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setRecyclerView() {
-        binding.rvWeathers.adapter = weatherAdapter
+        binding.rvWeathers.apply {
+            adapter = weatherAdapter
+            addItemDecoration(WeatherListDividerDecoration(4))
+        }
     }
 
     private fun setSwipeRefreshLayout() {
