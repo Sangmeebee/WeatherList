@@ -10,7 +10,7 @@ sealed class WeatherModel(open val type: WeatherViewType) {
     data class WeatherContent(
         override val type: WeatherViewType,
         val city: String,
-        val timestamp: Long,
+        val date: String,
         val tempMin: Double,
         val tempMax: Double,
         val iconName: String,

@@ -7,12 +7,10 @@ internal interface RemoteToDataMapper<T> {
     fun toData(): T
 }
 
-internal fun <T> List<RemoteToDataMapper<T>>.toData(): List<T> = map { it.toData() }
-
 internal fun WeatherResponse.toData(): List<WeatherEntity> =
     items.map { response ->
         WeatherEntity(
-            city = city.split("/").last(),
+            city = city,
             timestamp = response.timestamp,
             tempMin = response.tempResponse.min,
             tempMax = response.tempResponse.max,
