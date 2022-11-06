@@ -30,10 +30,6 @@ object AndroidConfig {
     const val SWIPE_REFRESH_LAYOUT = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
 
-object CoilConfig {
-    const val COIL = "io.coil-kt:coil:2.2.0"
-}
-
 object RoomConfig {
     private const val roomVersion = "2.4.3"
     const val ROOM_RUNTIME = "androidx.room:room-runtime:$roomVersion"
