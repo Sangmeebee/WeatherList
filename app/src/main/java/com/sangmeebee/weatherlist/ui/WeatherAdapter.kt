@@ -20,7 +20,6 @@ class WeatherAdapter :
             WeatherContentViewHolder(ItemWeatherContentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }
 
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == WeatherViewType.TITLE.ordinal) {
             (holder as WeatherTitleViewHolder).bind(getItem(position) as WeatherModel.WeatherTitle)
@@ -28,7 +27,6 @@ class WeatherAdapter :
             (holder as WeatherContentViewHolder).bind(getItem(position) as WeatherModel.WeatherContent)
         }
     }
-
 
     override fun getItemViewType(position: Int): Int = getItem(position).type.ordinal
 
@@ -50,7 +48,6 @@ class WeatherDiffCallback : DiffUtil.ItemCallback<WeatherModel>() {
         oldItem: WeatherModel,
         newItem: WeatherModel,
     ): Boolean = oldItem.type == newItem.type
-
 
     override fun areContentsTheSame(
         oldItem: WeatherModel,
