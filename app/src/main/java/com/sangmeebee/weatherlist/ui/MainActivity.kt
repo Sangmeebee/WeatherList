@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.sangmeebee.weatherlist.R
 import com.sangmeebee.weatherlist.cache.exceptions.DeleteCacheWeatherException
 import com.sangmeebee.weatherlist.cache.exceptions.GetCacheWeatherException
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val weatherAdapter = WeatherAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
