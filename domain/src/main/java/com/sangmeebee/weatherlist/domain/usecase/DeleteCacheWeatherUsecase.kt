@@ -1,7 +1,5 @@
 package com.sangmeebee.weatherlist.domain.usecase
 
-import com.sangmeebee.weatherlist.domain.exceptions.DeleteCacheWeatherException
-import com.sangmeebee.weatherlist.domain.exceptions.GetCacheWeatherException
 import com.sangmeebee.weatherlist.domain.repository.WeatherRepository
 import javax.inject.Inject
 
@@ -16,12 +14,7 @@ class DeleteCacheWeatherUsecase @Inject constructor(
                     getRemoveWeatherUsecase(weathers)
                 }
                 weatherRepository.deleteWeathersAtCache(removeWeathers.flatten())
-                    .onSuccess {
-                        Result.success(Unit)
-                    }.onFailure {
-                        Result.failure<Throwable>(DeleteCacheWeatherException())
-                    }
             },
-            onFailure = { Result.failure(GetCacheWeatherException()) }
+            onFailure = { throwable -> Result.failure(throwable) }
         )
 }
