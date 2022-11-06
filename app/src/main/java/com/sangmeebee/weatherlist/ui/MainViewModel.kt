@@ -47,9 +47,10 @@ class MainViewModel @Inject constructor(
     )
 
     fun fetchWeather() = viewModelScope.launch {
-        zipcodes.forEach { zipcode ->
-            fetchWeatherUsecase(zipcode.code, BuildConfig.OPEN_WEATHER_APP_ID)
-                .onFailure { throwable -> fetchError(throwable) }
+        val results = fetchWeatherUsecase(zipcodes.map { it.code }, BuildConfig.OPEN_WEATHER_APP_ID)
+        for (result in results) {
+            result.onFailure { throwable -> fetchError(throwable) }
+            if (result.isFailure) break
         }
         fetchLoading(isLoading = false)
     }
