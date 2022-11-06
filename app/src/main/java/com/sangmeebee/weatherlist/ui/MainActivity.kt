@@ -5,10 +5,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.sangmeebee.weatherlist.R
+import com.sangmeebee.weatherlist.cache.exceptions.DeleteCacheWeatherException
+import com.sangmeebee.weatherlist.cache.exceptions.GetCacheWeatherException
+import com.sangmeebee.weatherlist.cache.exceptions.PostCacheWeatherException
 import com.sangmeebee.weatherlist.databinding.ActivityMainBinding
-import com.sangmeebee.weatherlist.domain.exceptions.DeleteCacheWeatherException
-import com.sangmeebee.weatherlist.domain.exceptions.GetCacheWeatherException
-import com.sangmeebee.weatherlist.domain.exceptions.PostCacheWeatherException
 import com.sangmeebee.weatherlist.remote.exceptions.DisConnectNetworkException
 import com.sangmeebee.weatherlist.remote.exceptions.EmptyResultLocationException
 import com.sangmeebee.weatherlist.remote.exceptions.IllegalAppTokenException
