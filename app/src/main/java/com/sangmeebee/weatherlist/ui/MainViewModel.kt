@@ -10,6 +10,7 @@ import com.sangmeebee.weatherlist.model.LONDON_ZIP
 import com.sangmeebee.weatherlist.model.SEOUL_ZIP
 import com.sangmeebee.weatherlist.model.WeatherListUiState
 import com.sangmeebee.weatherlist.model.WeatherModel
+import com.sangmeebee.weatherlist.model.WeatherViewType
 import com.sangmeebee.weatherlist.model.ZipCode
 import com.sangmeebee.weatherlist.model.mapper.toPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,16 +35,18 @@ class MainViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(WeatherListUiState())
     val uiState = _uiState.asStateFlow()
 
-    val weathers: StateFlow<Map<String, List<WeatherModel>>> = getCacheWeathersFlowUsecase().map { data ->
-        val newMap = mutableMapOf<String, List<WeatherModel>>()
-        data.forEach { (key, value) ->
-            newMap[key] = value.toPresentation()
-        }
-        newMap
+    val weathers: StateFlow<List<WeatherModel>> = getCacheWeathersFlowUsecase().map { data ->
+        val weatherModel = mutableListOf<WeatherModel>()
+        data.toSortedMap(compareBy<String> { it }.reversed())
+            .forEach { (key, weathers) ->
+                weatherModel.add(WeatherModel.WeatherTitle(type = WeatherViewType.TITLE, city = key))
+                weatherModel.addAll(weathers.toPresentation())
+            }
+        weatherModel
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = emptyMap()
+        initialValue = emptyList()
     )
 
     fun fetchWeather() = viewModelScope.launch {
