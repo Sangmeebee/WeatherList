@@ -24,13 +24,23 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel by viewModels<MainViewModel>()
+    private val weatherAdapter = WeatherAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initView()
         setUpObserveUiState()
+    }
+
+    private fun initView() {
+        setRecyclerView()
         setSwipeRefreshLayout()
+    }
+
+    private fun setRecyclerView() {
+        binding.rvWeathers.adapter = weatherAdapter
     }
 
     private fun setSwipeRefreshLayout() {
@@ -65,8 +75,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeWeathers() = repeatOnStarted {
-        mainViewModel.weathers.collectLatest {
-            // TODO 어댑터에 데이터를 보낸다
+        mainViewModel.weathers.collectLatest { weathers ->
+            weatherAdapter.submitList(weathers)
         }
     }
 
