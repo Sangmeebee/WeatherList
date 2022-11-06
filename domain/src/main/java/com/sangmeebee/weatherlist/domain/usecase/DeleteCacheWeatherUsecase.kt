@@ -12,8 +12,12 @@ class DeleteCacheWeatherUsecase @Inject constructor(
             onSuccess = { weatherGroup ->
                 val removeWeathers = weatherGroup.values.map { weathers ->
                     getRemoveWeatherUsecase(weathers)
+                }.flatten()
+                if (removeWeathers.isNotEmpty()) {
+                    weatherRepository.deleteWeathersAtCache(removeWeathers)
+                } else {
+                    Result.success(Unit)
                 }
-                weatherRepository.deleteWeathersAtCache(removeWeathers.flatten())
             },
             onFailure = { throwable -> Result.failure(throwable) }
         )
