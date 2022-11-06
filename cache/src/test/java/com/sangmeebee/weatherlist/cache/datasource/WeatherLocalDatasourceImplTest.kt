@@ -5,12 +5,16 @@ import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import com.sangmeebee.weatherlist.cache.db.AppDatabase
+import com.sangmeebee.weatherlist.cache.db.WeatherDao
+import com.sangmeebee.weatherlist.cache.exceptions.DeleteCacheWeatherException
+import com.sangmeebee.weatherlist.cache.exceptions.GetCacheWeatherException
+import com.sangmeebee.weatherlist.cache.exceptions.PostCacheWeatherException
+import com.sangmeebee.weatherlist.cache.model.mapper.toPref
 import com.sangmeebee.weatherlist.data.datasource.local.WeatherLocalDatasource
 import com.sangmeebee.weatherlist.data.model.WeatherEntity
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -25,6 +29,7 @@ class WeatherLocalDatasourceImplTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var database: AppDatabase
+    private lateinit var weatherDao: WeatherDao
     private lateinit var weatherLocalDatasource: WeatherLocalDatasource
 
     @Before
@@ -33,6 +38,8 @@ class WeatherLocalDatasourceImplTest {
             getApplicationContext(),
             AppDatabase::class.java
         ).allowMainThreadQueries().build()
+
+        weatherDao = mockk()
 
         weatherLocalDatasource = WeatherLocalDatasourceImpl(database.weatherDao(), mainDispatcherRule.testDispatcher)
     }
@@ -51,15 +58,16 @@ class WeatherLocalDatasourceImplTest {
     }
 
     @Test
-    fun `저장에 실패한다`() = runTest {
+    fun `저장에 실패하면 해당하는 예외를 반환한다`() = runTest {
         // given
+        weatherLocalDatasource = WeatherLocalDatasourceImpl(weatherDao, mainDispatcherRule.testDispatcher)
         val weathers = fakeInsertWeathers
+        coEvery { weatherDao.insertAll(weathers.toPref()) } throws PostCacheWeatherException()
         // when
-        val actual = weatherLocalDatasource.insertAll(weathers).mapCatching {
-            throw IllegalStateException()
-        }
-        // then
-        assertThat(actual.isFailure).isTrue()
+        weatherLocalDatasource.insertAll(weathers)
+            // then
+            .onSuccess { actual -> assertThat(actual).isInstanceOf(PostCacheWeatherException::class.java) }
+            .onFailure { actual -> assertThat(actual).isInstanceOf(PostCacheWeatherException::class.java) }
     }
 
     @Test
@@ -73,15 +81,16 @@ class WeatherLocalDatasourceImplTest {
     }
 
     @Test
-    fun `삭제에 실패한다`() = runTest {
+    fun `삭제에 실패하면 해당 예외를 반환한다`() = runTest {
         // given
+        weatherLocalDatasource = WeatherLocalDatasourceImpl(weatherDao, mainDispatcherRule.testDispatcher)
         val weathers = fakeInsertWeathers
+        coEvery { weatherDao.deleteWeathers(weathers.toPref()) } throws DeleteCacheWeatherException()
         // when
-        val actual = weatherLocalDatasource.deleteWeathers(weathers).mapCatching {
-            throw IllegalStateException()
-        }
-        // then
-        assertThat(actual.isFailure).isTrue()
+        weatherLocalDatasource.deleteWeathers(weathers)
+            // then
+            .onSuccess { actual -> assertThat(actual).isInstanceOf(DeleteCacheWeatherException::class.java) }
+            .onFailure { actual -> assertThat(actual).isInstanceOf(DeleteCacheWeatherException::class.java) }
     }
 
     @Test
@@ -97,18 +106,15 @@ class WeatherLocalDatasourceImplTest {
     }
 
     @Test
-    fun `저장한 데이터를 불러오는 것을 실패한다`() = runTest {
+    fun `저장한 데이터를 불러오는 것을 실패하면 해당 예외를 반환한다`() = runTest {
         // given
-        val weathers = fakeInsertWeathers
-        weatherLocalDatasource.insertAll(weathers)
+        weatherLocalDatasource = WeatherLocalDatasourceImpl(weatherDao, mainDispatcherRule.testDispatcher)
+        coEvery { weatherDao.getAllWeathers() } throws GetCacheWeatherException()
         // when
-        weatherLocalDatasource.getAllWeathers().mapCatching {
-            throw IllegalStateException()
-            it
-        }
+        weatherLocalDatasource.getAllWeathers()
             // then
-            .onSuccess { actual -> assertThat(actual).isEqualTo(fakeInsertExpectedWeathers) }
-            .onFailure { actual -> assertThat(actual).isInstanceOf(IllegalStateException::class.java) }
+            .onSuccess { actual -> assertThat(actual).isInstanceOf(GetCacheWeatherException::class.java) }
+            .onFailure { actual -> assertThat(actual).isInstanceOf(GetCacheWeatherException::class.java) }
     }
 
     @Test
@@ -120,22 +126,6 @@ class WeatherLocalDatasourceImplTest {
         val actual = weatherLocalDatasource.getWeathersFlow().first()
         // then
         assertThat(actual).isEqualTo(fakeInsertExpectedWeathers)
-    }
-
-    @Test
-    fun `저장한 데이터를 데이터 스트림으로 불러오는데 실패한다`() = runTest {
-        // given
-        val weathers = fakeInsertWeathers
-        weatherLocalDatasource.insertAll(weathers)
-        // when
-        val actual = weatherLocalDatasource.getWeathersFlow().map { it ->
-            throw IllegalStateException()
-            it
-        }.catch { actual ->
-            assertThat(actual).isInstanceOf(IllegalStateException::class.java)
-        }.collectLatest { actual ->
-            assertThat(actual).isEqualTo(fakeInsertExpectedWeathers)
-        }
     }
 
     private val fakeInsertWeathers = listOf(
