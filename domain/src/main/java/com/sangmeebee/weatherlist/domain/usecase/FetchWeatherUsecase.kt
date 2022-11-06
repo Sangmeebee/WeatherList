@@ -1,6 +1,5 @@
 package com.sangmeebee.weatherlist.domain.usecase
 
-import com.sangmeebee.weatherlist.domain.exceptions.PostCacheWeatherException
 import javax.inject.Inject
 
 class FetchWeatherUsecase @Inject constructor(
@@ -14,7 +13,7 @@ class FetchWeatherUsecase @Inject constructor(
                 onSuccess = { weathers ->
                     postCacheWeatherUsecase(weathers.take(WEATHER_MAX_COUNT)).fold(
                         onSuccess = { deleteCacheWeatherUsecase() },
-                        onFailure = { Result.failure(PostCacheWeatherException()) }
+                        onFailure = { throwable -> Result.failure(throwable) }
                     )
                 },
                 onFailure = { Result.failure(it) }
