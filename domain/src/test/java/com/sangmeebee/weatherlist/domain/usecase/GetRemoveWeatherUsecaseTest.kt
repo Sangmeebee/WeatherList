@@ -11,7 +11,7 @@ class GetRemoveWeatherUsecaseTest {
 
     @Before
     fun setUp() {
-        getRemoveWeatherUsecase = GetRemoveWeatherUsecase(GetCurrentDateUsecase(), ConvertTimestampToDateUsecase())
+        getRemoveWeatherUsecase = GetRemoveWeatherUsecase(CompareTimestampWithCurrentDateUsecase())
     }
 
     @Test
