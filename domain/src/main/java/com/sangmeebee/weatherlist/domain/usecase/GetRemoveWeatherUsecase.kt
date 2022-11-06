@@ -5,16 +5,13 @@ import com.sangmeebee.weatherlist.domain.usecase.FetchWeatherUsecase.Companion.W
 import javax.inject.Inject
 
 class GetRemoveWeatherUsecase @Inject constructor(
-    private val getCurrentDateUsecase: GetCurrentDateUsecase,
-    private val convertTimestampToDateUsecase: ConvertTimestampToDateUsecase,
+    private val compareTimestampAndCurrentDateUsecase: CompareTimestampWithCurrentDateUsecase,
 ) {
     operator fun invoke(weathers: List<Weather>): List<Weather> {
         var existCount = WEATHER_MAX_COUNT
 
         val oldWeathers = weathers.filterIndexed { index, weather ->
-            val oldDate = convertTimestampToDateUsecase(weather.timestamp)
-            val currentDate = getCurrentDateUsecase()
-            val isOldDate = oldDate < currentDate
+            val isOldDate = compareTimestampAndCurrentDateUsecase(weather.city, weather.timestamp)
             if (isOldDate) {
                 existCount += 1
             }
