@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeatherList</string>
+    <string name="app_name">날씨 목록</string>
 
     <string name="main_delete_cache_error">캐시를 삭제하는데 실패했습니다</string>
     <string name="main_post_cache_error">캐시를 저장하는데 실패했습니다</string>
