@@ -59,7 +59,7 @@ class FetchWeatherUsecaseTest {
         coVerify { getWeatherUsecase(zipCodes[1], "appId") }
         coVerify { getWeatherUsecase(zipCodes[2], "appId") }
         result.forEachIndexed { index, actual ->
-            if (index == 1) {
+            if (index == 0) {
                 assertThat(actual.isFailure).isTrue()
             } else {
                 assertThat(actual.isSuccess).isTrue()
