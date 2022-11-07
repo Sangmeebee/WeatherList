@@ -22,7 +22,7 @@ class WeatherListDividerDecoration(heightDp: Int) : RecyclerView.ItemDecoration(
     // Divider 높이 만큼 여백을 준다.
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         val position = parent.getChildAdapterPosition(view)
-        if (position < parent.childCount) {
+        if (position < parent.childCount - 1) {
             val viewType = parent.adapter!!.getItemViewType(position)
             val nextViewType = parent.adapter!!.getItemViewType(position + 1)
             if (viewType == WeatherViewType.TITLE.ordinal) {
